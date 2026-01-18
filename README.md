@@ -26,17 +26,17 @@ graph TD
 
     subgraph "Application Layer (Logic)"
         Controller -->|Validates Input| Service[Manager<br/>TransactionService]
-        Service -->| Begin Transaction| TransactionManager
+        Service -->|1. Begin Transaction| TransactionManager
     end
 
     subgraph "Data Layer (Persistence)"
         TransactionManager -->|Start| DB[(MySQL Database)]
-        Service -->| Deduct Funds| Repo[Vault Keeper<br/>AccountRepository]
+        Service -->|2. Deduct Funds| Repo[Vault Keeper<br/>AccountRepository]
         Repo -->|UPDATE...| DB
-        Service -->| Add Funds| Repo
+        Service -->|3. Add Funds| Repo
     end
 
-    Service -->| Signs Off| TransactionManager
+    Service -->|4. Signs Off| TransactionManager
     TransactionManager -->|End| DB
     Service -->|Result| Controller
     Controller -->|JSON Response| User
