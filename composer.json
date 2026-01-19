@@ -1,0 +1,12 @@
+{
+  "name": "codebymathabo/grit-ledger",
+  "description": "A transactional banking simulation",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "ext-json": "*"
+  }
+}
