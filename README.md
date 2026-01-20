@@ -14,12 +14,12 @@ This project is fully containerized. You do not need to install PHP, Composer, o
 1. Start the Application
    Open your terminal (Command Prompt, PowerShell, or Terminal) in this project folder.
 
-2. Run the following command to build the environment: 
-   * docker-compose up --build
+2. Highlight, copy, and run the following command to build the environment: 
+   * `docker-compose up --build`
 
 *Wait for the logs to stop moving. You should see a message saying **"ready for connections"**.*
 
-#### The API is now live at http://localhost:8000.
+#### The API is now live.
 
 ## How to Test the API
 I have provided two easy ways to test that the system works.
