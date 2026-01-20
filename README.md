@@ -6,24 +6,48 @@ This service implements a strict **ACID-compliant** architecture to handle funds
 
 ## How to Run
 
-Follow these commands to get the server running.
+This project is fully containerized. You do not need to install PHP, Composer, or MySQL on your local machine to run it.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/grit-ledger.git](https://github.com/your-username/grit-ledger.git)
-    ```
+###  Prerequisites
+   ***Docker Desktop:** Ensure you have Docker installed and the container is running.*
 
-2.  **Configure the database:**
-    Import the `schema.sql` file into your MySQL database to create the necessary tables. Update your database credentials in the configuration file.
+1. Start the Application
+   Open your terminal (Command Prompt, PowerShell, or Terminal) in this project folder.
 
-3.  **Start the PHP server:**
-    Run this command in your terminal. It listens on port 8000.
-    ```bash
-    php -S localhost:8000
-    ```
+2. Run the following command to build the environment: 
+   * docker-compose up --build
 
-4.  **Test the API:**
-    Use tools like Postman or cURL to send requests to `http://localhost:8000/transfer`.
+*Wait for the logs to stop moving. You should see a message saying **"ready for connections"**.*
+
+#### The API is now live at http://localhost:8000.
+
+## How to Test the API
+I have provided two easy ways to test that the system works.
+
+### Option 1: One-Click Test via Postman (Recommended)
+I have included a testing file named **postman_collection.json** in the root directory of this project.
+
+**Step 1:** Open Postman (or a similar tool like Insomnia).
+
+**Step 2:** Click File > Import.
+
+**Step 3:** Drag and drop the postman_collection.json file into the window.
+           *You will see a new collection named **"Grit Ledger API"**.*
+
+**Step 4:** Click the "Transfer Money" request and hit the blue Send button.
+           *You should receive a success message confirming the transaction.*
+
+### Option 2: Test via Terminal
+If you prefer using the command line, open a new terminal window and run this command:
+
+**For Windows (PowerShell) highlight and copy the command below:** 
+ * `Invoke-RestMethod -Uri "http://localhost:8000/transfer" -Method Post -ContentType "application/json" -Body '{"sourceId": 1, "targetId": 2, "amount": 100}'`
+
+**For Mac/Linux (Bash) highlight and copy the command below:** 
+ * `url -X POST http://localhost:8000/transfer -H "Content-Type: application/json" -d '{"sourceId": 1, "targetId": 2, "amount": 100}'`
+
+### How to Stop the application
+Simply go back to your first terminal window and press **Ctrl + C**.
 
 ## Technical Decisions
 
