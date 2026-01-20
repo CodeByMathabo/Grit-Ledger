@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=grit_ledger
+      - DB_USER=grit_user
+      - DB_PASS=grit_password
+    depends_on:
+      - db
+    networks:
+      - grit-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_DATABASE=grit_ledger
+      - MYSQL_USER=grit_user
+      - MYSQL_PASSWORD=grit_password
+    volumes:
+      # Automatically runs the init script to create tables/data on startup
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - grit-network
+
+networks:
+  grit-network:
+    driver: bridge

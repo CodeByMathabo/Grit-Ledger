@@ -8,34 +8,37 @@ use PDO;
 use PDOException;
 use RuntimeException;
 
-// classic singleton to save connections
 class DatabaseConnection
 {
     private static ?DatabaseConnection $instance = null;
     private ?PDO $pdo = null;
 
-    private const DB_HOST = '127.0.0.1';
-    private const DB_NAME = 'grit_ledger';
-    private const DB_USER = 'root';
-    private const DB_PASS = '';
-
     private function __construct()
     {
+        // Why: Load config from Environment Variables (injected by Docker) to avoid hardcoding.
+        $host = getenv('DB_HOST') ?: '127.0.0.1';
+        $db   = getenv('DB_NAME') ?: 'grit_ledger';
+        $user = getenv('DB_USER') ?: 'root';
+        $pass = getenv('DB_PASS') ?: '';
+
         try {
-            $dsn = 'mysql:host=' . self::DB_HOST . ';dbname=' . self::DB_NAME . ';charset=utf8mb4';
+            // Why: Logging the connection attempt helps debug if the container can't reach the DB.
+            error_log("Attempting to connect to database at: " . $host);
 
-            $this->pdo = new PDO($dsn, self::DB_USER, self::DB_PASS);
+            $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', $host, $db);
 
-            // strict error mode is better for debugging
+            $this->pdo = new PDO($dsn, $user, $pass);
+
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-            // safety first: prevent SQL injection
             $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+            error_log("Database connection established successfully.");
+
         } catch (PDOException $e) {
-            // hide credentials from the stack trace
-            throw new RuntimeException("Database connection failed: " . $e->getMessage());
+            // Why: Log the specific error to stderr so it shows up in Docker logs.
+            error_log("Database Connection Error: " . $e->getMessage());
+            throw new RuntimeException("Database connection failed. Check logs for details.");
         }
     }
 

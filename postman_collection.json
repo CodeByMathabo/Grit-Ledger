@@ -1,0 +1,45 @@
+{
+  "info": {
+    "_postman_id": "b5a7a3b3-8b1e-4b1e-8b1e-b5a7a3b38b1e",
+    "name": "Grit Ledger API",
+    "description": "Collection for testing the Grit Ledger transactional banking simulation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Transfer Money",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"sourceId\": 1,\n    \"targetId\": 2,\n    \"amount\": 100\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/transfer",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "transfer"
+          ]
+        },
+        "description": "Transfers funds from one account to another. IDs 1 and 2 are pre-seeded in the Docker database."
+      },
+      "response": []
+    }
+  ]
+}

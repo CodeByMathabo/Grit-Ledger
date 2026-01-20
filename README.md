@@ -11,7 +11,6 @@ Follow these commands to get the server running.
 1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/your-username/grit-ledger.git](https://github.com/your-username/grit-ledger.git)
-    cd grit-ledger
     ```
 
 2.  **Configure the database:**
